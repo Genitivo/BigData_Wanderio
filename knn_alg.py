@@ -53,30 +53,30 @@ with open("knn_string.csv") as fh:
         words.append(temp[0])
 
         # sessions_users.append((session_user.split(',')[0],session_user.split(',')[1]))
-
 words_set = list(set(words))
 distributions = [session_distribution(words,x) for x in words_set]
-print distributions
+
 words_set = map(tobits,words_set)
 map(addZero,words_set)
-print "!"
-neigh = NearestNeighbors(n_neighbors=10)
+neigh = NearestNeighbors(n_neighbors=11)
 
 neigh.fit(words_set)
 
 temp = neigh.kneighbors(words_set)
 
-print "?"
-for idx, val in enumerate(temp[1]):
-    print idx
+probabilta = temp[0]
+neighbors = temp[1]
+
+print temp
+for idx, val in enumerate(neighbors):
     bits = removeZero(words_set[idx])
     vicini = []
     for index, number in enumerate(val):
         bits_n = removeZero(words_set[number])
-        vicini.append(frombits(bits_n))
+        vicini.append( (frombits(bits_n), probabilta[idx][index]))
     neighbors_file =  open('./neighbors.csv', "a")
     for item in vicini:
-        neighbors_file.write("%s\t" % item)
+        neighbors_file.write("(%s,%s)\t" % (item[0],item[1]))
     neighbors_file.write("%s\n" % distributions[idx])
     neighbors_file.close()
     # print "Stringa ", frombits(bits)
