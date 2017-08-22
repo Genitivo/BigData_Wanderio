@@ -81,7 +81,7 @@ def creaSessioni(utente):
 
         knn_events_user = map(createKNN,solo_sessioni)
 
-        with open('/Users/Michele/Desktop/BigData_Wanderio/knn_string.csv', "a") as f:
+        with open('./knn_string.csv', "a") as f:
             writer = csv.writer(f)
             writer.writerows(knn_events_user)
 
@@ -100,12 +100,12 @@ def createKNN(sessione):
 ######################################### <-----> MAIN <-----> ##############################################
 
 sc = SparkContext()
-categories_csv = sc.textFile("/Users/Michele/Desktop/BigData_Wanderio/event_category.csv")
+categories_csv = sc.textFile("./event_category.csv")
 categories = categories_csv.map(lambda line: line.split("\t"))
 
 categories = categories.map(lambda elem: (elem[0].split(",")[0],elem[0].split(",")[1])).collect()
 
-text_file = sc.textFile("/Users/Michele/Desktop/BigData_Wanderio/data_event_type.csv")
+text_file = sc.textFile("./data_event_type.csv")
 
 lines = text_file.map(lambda line: line.split("\t"))
 users = lines.map(lambda p: ( p[0],(p[2],p[3]) )).groupByKey().mapValues(list).collect()
