@@ -79,5 +79,5 @@ for idx, val in enumerate(neighbors):
         neighbors_file.write("(%s,%s)\t" % (item[0],item[1]))
     neighbors_file.write("%s\n" % distributions[idx])
     neighbors_file.close()
-    # print "Stringa ", frombits(bits)
-    # print "vicini: ", vicini
+    print "Stringa ", frombits(bits)
+    print "vicini: ", vicini
