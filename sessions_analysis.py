@@ -9,6 +9,24 @@ def completedOrderSession(sessions):
 neighbors = []
 total_cluster = []
 
+
+def findDensity(cluster):
+	totalDensity=0
+	new_cluster = []
+
+	for c in cluster:
+		name = c.split(',')[0]
+		#print name
+		line = filter(lambda x: x[0] == c ,neighbors)[0]
+		totalDensity = int(line[len(line)-1])+totalDensity
+		new_cluster.append(name)
+	return (new_cluster,totalDensity)
+		#for n in neighbors: 
+		#	if name == n[0].split(','):
+
+
+
+
 def createCluster(s):
 	new_total_cluster = []
 	capoCat = s[0].split(',')[0]
@@ -82,6 +100,9 @@ with open("neighbors.csv", 'r') as file:
 
 neighbors = neighbors[0]
 
+
+
+
 completedOrder_neighbors = filter(lambda x: True if 'L' in x[0].split(',')[0] else False, neighbors)
 
 # SESSIONI CON POTENZIALE ACQUISTO
@@ -96,7 +117,17 @@ map(createCluster,completed_order_sessions)
 filteredList = map(pickOnlyZero,total_cluster)
 # result = map(removeDuplicati,completed_order_sessions)
 
+listWithDensity = map(findDensity,filteredList)
 #
-# print filteredList
+print listWithDensity
+
+
+neighbors_file =  open('./clusterDensity.csv', "a")
+for elem in listWithDensity:
+	for e in elem[0]:
+		neighbors_file.write("%s\t" % e)
+    	neighbors_file.write("%s\n" % elem[1])
+neighbors_file.close()
+
 # print len(total_cluster)
 # print '*********************************'
