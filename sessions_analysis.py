@@ -5,8 +5,6 @@ def potentialOrderSession(sessions):
 
 def completedOrderSession(sessions):
 	return filter(lambda x: True if 'L' in x.split(',')[0] else False,sessions)
-#
-
 
 neighbors = []
 total_cluster = []
@@ -77,8 +75,6 @@ def removeDuplicati(cluster):
 				i=i+1
 
 	return removeDuplicateWithMinScore(cluster)
-
-
 
 with open("neighbors.csv", 'r') as file:
 	reader = csv.reader(file, delimiter='\t')
